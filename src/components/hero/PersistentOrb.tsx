@@ -19,13 +19,14 @@ export default function PersistentOrb() {
     gsap.set(el, { xPercent: -50, yPercent: -50 })
   }, [])
 
-  // Entrance
+  // Entrance — opacity only; keeping scale out of GSAP's hands entirely
+  // so no scale state leaks into the scroll-driven triggers below.
   useEffect(() => {
     if (!loaderComplete || !wrapRef.current) return
     gsap.fromTo(
       wrapRef.current,
-      { opacity: 0, scale: 0.92 },
-      { opacity: 1, scale: 1, duration: 1.4, ease: 'power3.out', delay: 0.1 }
+      { opacity: 0 },
+      { opacity: 1, duration: 1.4, ease: 'power3.out', delay: 0.1 }
     )
   }, [loaderComplete])
 
@@ -39,15 +40,6 @@ export default function PersistentOrb() {
     const el = wrapRef.current
     if (!el) return
 
-    // Using ScrollTrigger.create() + onUpdate + gsap.set() instead of gsap.to() scrub tweens.
-    //
-    // Root cause of the previous glitch: two gsap.to() tweens on the same `x` property
-    // each capture x=0 as their "from" state at mount. GSAP applies that from-state
-    // whenever the trigger is outside its active range, so the process tween kept
-    // snapping x back to 0 while the user was still in the services section.
-    //
-    // onUpdate only fires when the trigger is actively between start and end — no
-    // from-state clobber, no competing tweens, no conflicts.
     const ctx = gsap.context(() => {
       // Hero → Services: x goes from 0 → +0.45vw (right sunset)
       ScrollTrigger.create({
@@ -70,6 +62,41 @@ export default function PersistentOrb() {
           gsap.set(el, { x: window.innerWidth * (0.45 - 0.9 * self.progress) })
         },
       })
+
+      // Process: orb stays parked at left (-0.45vw), full size.
+      // No trigger needed — gsap.set() values persist until the next active trigger.
+
+      // Work: orb travels left → center tied to horizontal scroll progress.
+      // onUpdate + gsap.set() pattern (same as the other triggers) — fires only
+      // while the trigger is active so no from-state is ever captured or snapped.
+      // onLeaveBack explicitly parks the orb back at left when scrolling past start.
+      //
+      // Start/end use Process geometry (not the Work element) to avoid mount-order
+      // race: PersistentOrb's effects run before Process registers its pin spacer,
+      // so Work's offsetTop is wrong at registration. Process.offsetTop is stable.
+      const getWorkStart = () => {
+        const proc = document.querySelector('[data-section="process"]') as HTMLElement | null
+        if (!proc) return 999999
+        return proc.offsetTop + proc.offsetHeight + window.innerHeight * 4
+      }
+
+      ScrollTrigger.create({
+        start: getWorkStart,
+        end: () => {
+          const track = document.querySelector('[data-track="work"]') as HTMLElement | null
+          return getWorkStart() + (track ? track.scrollWidth - window.innerWidth : 0)
+        },
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          gsap.set(el, { x: window.innerWidth * -0.45 * (1 - self.progress) })
+        },
+        onLeaveBack() {
+          gsap.set(el, { x: window.innerWidth * -0.45 })
+        },
+        onLeave() {
+          gsap.set(el, { x: 0 })
+        },
+      })
     })
 
     return () => ctx.revert()
@@ -85,9 +112,9 @@ export default function PersistentOrb() {
         width: '135vmin',
         height: '135vmin',
         opacity: 0,
-        // z-8: above section backgrounds (static flow, paint at z-auto)
-        // but below text content (z-10) and UI chrome (z-200+)
-        zIndex: 8,
+        // z-0: step 6 in CSS paint order — DOM order (orb is first) ensures
+        // every section paints after it, whether pinned by GSAP or not.
+        zIndex: 0,
       }}
     >
       <HeroOrb />
