@@ -5,7 +5,7 @@ import gsap from 'gsap'
 import Link from 'next/link'
 
 const NAV = [
-  { label: 'Work',               href: '/#work'  },
+  { label: 'How we work',         href: '/#process' },
   { label: 'About',              href: '/#about' },
   { label: 'Start a project',    href: '/start'  },
   { label: 'hello@71px.studio',  href: 'mailto:hello@71px.studio' },
@@ -13,13 +13,12 @@ const NAV = [
 
 interface Props {
   open: boolean
+  onClose: () => void
 }
 
-export default function MenuOverlay({ open }: Props) {
+export default function MenuOverlay({ open, onClose }: Props) {
   const overlayRef  = useRef<HTMLDivElement>(null)
   const linksRef    = useRef<(HTMLLIElement | null)[]>([])
-  const miniOrbRef  = useRef<HTMLDivElement>(null)
-
   /* Open / close animation */
   useEffect(() => {
     const overlay = overlayRef.current
@@ -50,22 +49,6 @@ export default function MenuOverlay({ open }: Props) {
     }
   }, [open])
 
-  /* Mini orb follows cursor inside menu */
-  useEffect(() => {
-    const orb = miniOrbRef.current
-    if (!orb) return
-
-    const xTo = gsap.quickTo(orb, 'x', { duration: 0.6, ease: 'power3' })
-    const yTo = gsap.quickTo(orb, 'y', { duration: 0.6, ease: 'power3' })
-
-    const onMove = (e: MouseEvent) => {
-      xTo(e.clientX - 40)
-      yTo(e.clientY - 40)
-    }
-
-    window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
 
   return (
     <div
@@ -75,10 +58,14 @@ export default function MenuOverlay({ open }: Props) {
     >
       {/* Logo */}
       <div className="flex items-start justify-between">
-        <span className="font-display font-medium text-ink" style={{ fontSize: 18 }}>
+        <Link
+          href="/"
+          className="font-display font-medium text-ink"
+          style={{ fontSize: 18, textDecoration: 'none' }}
+        >
           Studio 71<span className="font-mono" style={{ fontSize: '55%', verticalAlign: '0.05em' }}>px</span>
           <span className="font-mono text-pixel-red" style={{ fontSize: '55%', verticalAlign: '0.05em' }}>.</span>
-        </span>
+        </Link>
       </div>
 
       {/* Nav links */}
@@ -90,13 +77,28 @@ export default function MenuOverlay({ open }: Props) {
               ref={(el) => { linksRef.current[i] = el }}
               style={{ opacity: 0 }}
             >
-              <Link
-                href={item.href}
-                className="group inline-block font-display font-medium text-ink leading-[1.1] tracking-[-0.03em] transition-colors duration-200 hover:text-pixel-red"
+              <button
+                onClick={() => {
+                  onClose()
+                  if (item.href.startsWith('/#')) {
+                    const section = item.href.replace('/#', '')
+                    if (window.location.pathname !== '/') {
+                      window.location.href = item.href
+                    } else {
+                      setTimeout(() => {
+                        const el = document.querySelector(`[data-section="${section}"]`)
+                        if (el) el.scrollIntoView({ behavior: 'smooth' })
+                      }, 500)
+                    }
+                  } else {
+                    window.location.href = item.href
+                  }
+                }}
+                className="group inline-block font-display font-medium text-ink leading-[1.1] tracking-[-0.03em] transition-colors duration-200 hover:text-pixel-red cursor-pointer bg-transparent border-none p-0 text-left"
                 style={{ fontSize: 'clamp(36px, 6vw, 88px)' }}
               >
                 {item.label}
-              </Link>
+              </button>
             </li>
           ))}
         </ul>
@@ -108,25 +110,10 @@ export default function MenuOverlay({ open }: Props) {
           Bengaluru · IST · GMT+5:30
         </span>
         <span className="font-mono text-[11px] tracking-[0.06em] uppercase text-ink/50">
-          Est. 2024
+          Est. 2026
         </span>
       </div>
 
-      {/* Mini orb — follows cursor */}
-      <div
-        ref={miniOrbRef}
-        className="fixed pointer-events-none rounded-full"
-        style={{
-          width: 80,
-          height: 80,
-          background: 'radial-gradient(circle at 35% 30%, #ff9944, #FF3B1F 50%, #1a0202)',
-          filter: 'blur(2px)',
-          opacity: 0.85,
-          zIndex: 210,
-          top: 0,
-          left: 0,
-        }}
-      />
     </div>
   )
 }

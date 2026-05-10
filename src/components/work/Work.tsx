@@ -103,8 +103,8 @@ export default function Work() {
       {/* Fixed heading — stays in place as track scrolls */}
       <div
         ref={headingRef}
-        className="absolute z-10 pointer-events-none"
-        style={{ top: 100, left: 56, opacity: 0 }}
+        className="absolute z-10 pointer-events-none left-5 sm:left-8 md:left-10 lg:left-14"
+        style={{ top: 80, opacity: 0 }}
       >
         <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-paper/30 block mb-4">
           Work
@@ -121,13 +121,8 @@ export default function Work() {
       <div
         ref={trackRef}
         data-track="work"
-        className="absolute top-0 left-0 h-full flex items-start"
+        className="absolute top-0 left-0 h-full flex items-start pt-[140px] pb-6 px-5 gap-4 sm:pt-[160px] sm:px-8 md:pt-[180px] md:px-10 md:gap-5 lg:pt-[200px] lg:px-14 lg:gap-6"
         style={{
-          paddingTop: 200,
-          paddingBottom: 56,
-          paddingLeft: 56,
-          paddingRight: 56,
-          gap: 24,
           willChange: 'transform',
         }}
       >

@@ -35,7 +35,7 @@ export default function Hero() {
       className="relative h-screen w-full overflow-hidden"
     >
       {/* Text layer — above the orb */}
-      <div className="relative z-10 flex h-full items-center justify-between px-14">
+      <div className="relative z-10 flex h-full items-center justify-between px-5 sm:px-8 md:px-10 lg:px-14">
 
         {/* Left: headline + CTA */}
         <div className="flex flex-col">
@@ -56,7 +56,7 @@ export default function Hero() {
         {/* Right: studio detail */}
         <div
           ref={rightColRef}
-          className="flex flex-col items-end gap-6 text-right"
+          className="hidden md:flex flex-col items-end gap-6 text-right"
           style={{ opacity: 0 }}
         >
           <div className="flex flex-col items-end gap-3">
@@ -77,7 +77,7 @@ export default function Hero() {
           <div className="flex flex-col items-end gap-1">
             <span className="font-mono text-[11px] tracking-[0.12em] uppercase text-paper/40">Studio</span>
             <span className="font-display font-medium text-paper/70 text-[15px] tracking-[-0.02em]">
-              Bengaluru · Est. 2024
+              Bengaluru · Est. 2026
             </span>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function Hero() {
       </div>
 
       {/* Scroll hint */}
-      <div className="absolute bottom-8 right-14 z-10 flex items-center gap-3">
+      <div className="absolute bottom-8 right-5 sm:right-8 md:right-10 lg:right-14 z-10 flex items-center gap-3">
         <span
           ref={scrollRef}
           className="font-mono text-[11px] tracking-[0.1em] uppercase text-paper/50"

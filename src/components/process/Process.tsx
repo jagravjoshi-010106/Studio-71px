@@ -121,8 +121,8 @@ export default function Process() {
         or out the bottom of the viewport.
       */}
       <div
-        className="absolute z-10 flex flex-col"
-        style={{ top: 100, bottom: 44, right: 44, width: '60vw' }}
+        className="absolute z-10 flex flex-col left-5 right-5 md:left-auto md:right-[44px] md:w-[60vw]"
+        style={{ top: 80, bottom: 32 }}
       >
         {/* Heading — left-aligned so it anchors at the column's left edge (≈ center of page) */}
         <div

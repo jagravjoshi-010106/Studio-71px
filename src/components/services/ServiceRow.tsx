@@ -42,7 +42,7 @@ export default function ServiceRow({ number, name, descriptor }: Props) {
       {/* Main row */}
       <div
         className="grid items-center py-6 gap-4"
-        style={{ gridTemplateColumns: '40px 1fr auto' }}
+        style={{ gridTemplateColumns: '32px 1fr auto' }}
       >
         <span
           ref={numRef}
@@ -72,7 +72,7 @@ export default function ServiceRow({ number, name, descriptor }: Props) {
       <p
         ref={descRef}
         className="font-body text-paper/60 text-[14px] leading-[1.7] overflow-hidden"
-        style={{ height: 0, opacity: 0, paddingBottom: 0, paddingLeft: 56 }}
+        style={{ height: 0, opacity: 0, paddingBottom: 0, paddingLeft: 32 }}
       >
         {descriptor}
       </p>

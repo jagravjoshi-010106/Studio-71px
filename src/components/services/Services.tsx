@@ -80,7 +80,7 @@ export default function Services() {
       style={{ minHeight: '100vh', paddingTop: '14vh', paddingBottom: '14vh' }}
     >
       {/* Header — constrained left so it sits beside the orb */}
-      <div className="px-14 mb-16" style={{ maxWidth: '48%' }}>
+      <div className="px-5 sm:px-8 md:px-10 lg:px-14 mb-10 md:mb-16" style={{ maxWidth: 'min(100%, 48%)' }}>
         <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-paper/30 block mb-8">
           Services
         </span>
@@ -103,7 +103,7 @@ export default function Services() {
       </div>
 
       {/* Rows — full width so they fill the center and overlap the orb behind */}
-      <div ref={rowsRef} className="px-14 border-t border-paper/10">
+      <div ref={rowsRef} className="px-5 sm:px-8 md:px-10 lg:px-14 border-t border-paper/10">
         {SERVICES.map((s) => (
           <ServiceRow
             key={s.number}

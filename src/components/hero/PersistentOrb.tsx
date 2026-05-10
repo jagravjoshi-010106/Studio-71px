@@ -97,6 +97,77 @@ export default function PersistentOrb() {
           gsap.set(el, { x: 0 })
         },
       })
+      // Work → About: orb slides center → right sunset.
+      // Position-based (same strategy as Work) to avoid pin-spacer race.
+      // Starts right after the Work trigger's range ends; slides over 1vh.
+      const getAboutSlideStart = () => {
+        const track = document.querySelector('[data-track="work"]') as HTMLElement | null
+        const workDist = track ? track.scrollWidth - window.innerWidth : 0
+        return getWorkStart() + workDist
+      }
+
+      ScrollTrigger.create({
+        start: getAboutSlideStart,
+        end: () => getAboutSlideStart() + window.innerHeight,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          gsap.set(el, { x: self.progress * window.innerWidth * 0.45 })
+        },
+        onLeave() {
+          gsap.set(el, { x: window.innerWidth * 0.45 })
+        },
+        onLeaveBack() {
+          gsap.set(el, { x: 0 })
+        },
+      })
+
+      // About → FAQ: orb slides right sunset → left sunset.
+      // Chained off getAboutSlideStart — avoids DOM offsetTop which is
+      // wrong due to pin spacers from Process and Work.
+      // Start sliding 2vh after the About slide completes,
+      // slide over 2vh so the full right→left travel finishes
+      // before FAQ content is on screen.
+      const getFaqSlideStart = () => getAboutSlideStart() + window.innerHeight * 1.5
+
+      ScrollTrigger.create({
+        start: getFaqSlideStart,
+        end: () => getFaqSlideStart() + window.innerHeight * 0.8,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          gsap.set(el, { x: window.innerWidth * (0.45 - 0.9 * self.progress) })
+        },
+        onLeave() {
+          gsap.set(el, { x: window.innerWidth * -0.45 })
+        },
+        onLeaveBack() {
+          gsap.set(el, { x: window.innerWidth * 0.45 })
+        },
+      })
+
+      // FAQ → CTA: orb fades out.
+      // Position-based to avoid pin-spacer miscalculation.
+      const getCtaFadeStart = () => {
+        const faq = document.querySelector('[data-section="faq"]') as HTMLElement | null
+        const faqHeight = faq ? faq.offsetHeight : window.innerHeight
+        const about = document.querySelector('[data-section="about"]') as HTMLElement | null
+        const aboutHeight = about ? about.offsetHeight : window.innerHeight
+        return getAboutSlideStart() + window.innerHeight + aboutHeight + faqHeight
+      }
+
+      ScrollTrigger.create({
+        start: () => getCtaFadeStart() - window.innerHeight * 0.4,
+        end: getCtaFadeStart,
+        invalidateOnRefresh: true,
+        onUpdate(self) {
+          gsap.set(el, { opacity: 1 - self.progress })
+        },
+        onLeave() {
+          gsap.set(el, { opacity: 0 })
+        },
+        onLeaveBack() {
+          gsap.set(el, { opacity: 1 })
+        },
+      })
     })
 
     return () => ctx.revert()
@@ -109,8 +180,8 @@ export default function PersistentOrb() {
       style={{
         top: '50%',
         left: '50%',
-        width: '135vmin',
-        height: '135vmin',
+        width: 'clamp(280px, 135vmin, 135vmin)',
+        height: 'clamp(280px, 135vmin, 135vmin)',
         opacity: 0,
         // z-0: step 6 in CSS paint order — DOM order (orb is first) ensures
         // every section paints after it, whether pinned by GSAP or not.

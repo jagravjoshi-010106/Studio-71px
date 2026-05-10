@@ -14,7 +14,7 @@ export default function NavWrapper() {
   return (
     <>
       <HamburgerButton open={menuOpen} onToggle={() => setMenuOpen(!menuOpen)} />
-      <MenuOverlay open={menuOpen} />
+      <MenuOverlay open={menuOpen} onClose={() => setMenuOpen(false)} />
     </>
   )
 }
