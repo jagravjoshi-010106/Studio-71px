@@ -16,7 +16,7 @@ const AboutFounderCard = forwardRef<HTMLDivElement, Props>(
     return (
       <div
         ref={ref}
-        className="group relative overflow-hidden rounded-sm cursor-pointer min-w-[280px] snap-start md:min-w-0"
+        className="group relative overflow-hidden rounded-sm cursor-pointer"
         style={{
           border: '3px solid rgba(242,240,236,0.25)',
           transition: 'background-color 0.35s ease, border-color 0.35s ease',

@@ -136,14 +136,14 @@ export default function StartPage() {
         }
       `}</style>
       {/* Header */}
-      <div className="flex justify-end items-center mb-auto">
+      <div className="flex justify-end items-center mb-auto pr-12 md:pr-0">
         <span className="font-mono text-[12px] tracking-[0.1em] uppercase" style={{ color: 'rgba(242,240,236,0.5)' }}>
           {String(step + 1).padStart(2, '0')} / {String(TOTAL_STEPS).padStart(2, '0')}
         </span>
       </div>
 
       {/* Content */}
-      <div className="flex-1 flex items-center" style={{ maxWidth: 700 }}>
+      <div className="flex-1 flex items-center" style={{ maxWidth: 700, minHeight: 0 }}>
         <div ref={contentRef} className="w-full">
           {step === 0 && (
             <>
@@ -332,7 +332,7 @@ export default function StartPage() {
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between pt-12">
+      <div className="flex items-center justify-between pt-6 md:pt-12 pb-2">
         <button
           onClick={back}
           className="font-body text-[14px] cursor-pointer bg-transparent border-none"

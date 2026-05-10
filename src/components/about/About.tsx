@@ -130,7 +130,7 @@ export default function About() {
           style={{ height: 1, backgroundColor: 'rgba(242,240,236,0.18)', marginBottom: 56 }}
         />
 
-        <div className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-2 md:gap-8 md:overflow-visible md:pb-0">
+        <div className="flex flex-col gap-6 md:grid md:grid-cols-2 md:gap-8">
           {FOUNDERS.map((founder, i) => (
             <AboutFounderCard
               key={founder.number}
