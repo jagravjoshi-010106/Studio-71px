@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
-const LINES = ['Websites that', 'refuse to be', 'ignored.']
+const LINES = ['We make websites', 'that refuse to', 'be ignored.']
 
 export default function HeroHeadline({ animate }: { animate: boolean }) {
   const linesRef = useRef<(HTMLSpanElement | null)[]>([])
