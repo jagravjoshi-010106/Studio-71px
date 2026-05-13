@@ -89,11 +89,11 @@ export default function Footer() {
                 <ul className="flex flex-col gap-3">
                   <li>
                     <a
-                      href="mailto:hello@71px.studio"
+                      href="mailto:hello@studio71px.tech"
                       className="font-body text-[14px]"
                       style={{ color: '#0E0E0E', textDecoration: 'none' }}
                     >
-                      hello@71px.studio
+                      hello@studio71px.tech
                     </a>
                   </li>
                   <li>

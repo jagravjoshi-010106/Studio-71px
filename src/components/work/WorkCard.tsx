@@ -27,11 +27,12 @@ export default function WorkCard({ number, name, tags, video }: Props) {
   return (
     <div
       ref={cardRef}
-      className="relative shrink-0 flex flex-col cursor-pointer z-10"
-      style={{
-        width: 'clamp(280px, 26vw, 440px)',
-        height: 'calc(100vh - 256px)',
-      }}
+      className="relative shrink-0 flex flex-col cursor-pointer z-10
+        w-[75vw] h-[50vh]
+        sm:w-[50vw] sm:h-[55vh]
+        md:w-[40vw] md:h-[58vh]
+        lg:w-[26vw] lg:min-w-[280px] lg:max-w-[440px] lg:h-[calc(100vh-256px)]
+        min-[2560px]:max-w-[560px] min-[2560px]:h-[800px]"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >

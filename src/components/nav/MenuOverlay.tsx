@@ -8,7 +8,7 @@ const NAV = [
   { label: 'How we work',         href: '/#process' },
   { label: 'About',              href: '/#about' },
   { label: 'Start a project',    href: '/start'  },
-  { label: 'hello@71px.studio',  href: 'mailto:hello@71px.studio' },
+  { label: 'hello@studio71px.tech',  href: 'mailto:hello@studio71px.tech' },
 ]
 
 interface Props {

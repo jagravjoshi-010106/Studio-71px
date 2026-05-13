@@ -115,7 +115,7 @@ export default function Work() {
       <div
         ref={trackRef}
         data-track="work"
-        className="absolute top-0 left-0 h-full flex items-start pt-[140px] pb-6 px-5 gap-4 sm:pt-[160px] sm:px-8 md:pt-[180px] md:px-10 md:gap-5 lg:pt-[200px] lg:px-14 lg:gap-6"
+        className="absolute top-0 left-0 h-full flex items-start pt-[140px] pb-6 px-5 gap-4 sm:pt-[160px] sm:px-8 md:pt-[180px] md:px-10 md:gap-5 lg:pt-[200px] lg:px-14 lg:gap-6 min-[2560px]:gap-8"
         style={{
           willChange: 'transform',
         }}
